@@ -1,0 +1,37 @@
+<?!= HtmlService.createHtmlOutputFromFile('calc-css').getContent(); ?>
+<?!= HtmlService.createHtmlOutputFromFile('css-package').getContent(); ?>
+<?!= HtmlService.createHtmlOutputFromFile('css').getContent(); ?>
+<?!= HtmlService.createHtmlOutputFromFile('jquery-ui-css').getContent(); ?>
+
+<h1 class='centered sans'>Tithe Counter</h1>
+<div id='form-container'>
+  <form onsubmit="google.script.run.withSuccessHandler(showSuccess).withFailureHandler(showError).processForm(this)">
+    <h3 class='centered'>Tithe for <input name="sunday-date" type='date' id='datepicker'></h3>
+    <div id='cash-input' class='cleared control'>
+      <h4>Cash</h4>
+      <label id="cash">Total cash in offering: </label><input type="number" step='any' name="cash" id='cash-calc'>
+    </div>
+    <div id='check-input' class='cleared control'>
+      <h4>Checks</h4>
+      <h5>Insert the check writer's name, the amount, the check number, the date assigned to the check, and the writer's address.</h5>
+      <div id='check-container' class='cleared control'>
+        <input type='button' class='add-check' id='add-check-button' value='Add a check'>
+      </div>
+    </div>
+    <div id='charge-input' class='cleared control'>
+      <h4>Digital</h4>
+      <h5>Digital transactions will be automatically captured by their respective systems. Remember to refer to those systems when you're looking to get a comprehensive number</p>
+    </div>
+    <div id='treasurers-signoff' class='cleared control'>
+      <h4>Treasurers</h4>
+      <input name='treasurer'><input name='treasurer'>
+    </div>
+    <div id='submission' class='cleared control'>
+      <input type="submit" value="Submit">
+    </div>
+  </form>
+</div>
+
+<?!= HtmlService.createHtmlOutputFromFile('calc').getContent(); ?>
+<?!= HtmlService.createHtmlOutputFromFile('js').getContent(); ?>
+<?!= HtmlService.createHtmlOutputFromFile('calc-js').getContent(); ?>
