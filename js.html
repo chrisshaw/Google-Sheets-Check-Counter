@@ -1,0 +1,101 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
+<script>
+  $(function(){
+    var supported = {date: false, number: false, time: false, month: false, week: false};
+    var $tester = $('<input>');
+
+    for(var key in supported){
+        $tester.prop('type', key);
+        if($tester.prop('type') === key){
+            supported[key] = true;
+        }
+    }
+    
+    if (!supported['date']) {
+      $('#datepicker').datepicker({
+        beforeShowDay: function(date){
+          return [date.getDay() === 0, ''];
+        }
+      });
+    }
+
+    $('.add-check').click({support: supported}, addCheck);
+    $('#calc-button').click(toggleCalc);
+    $('#send-button').click(sendAsCash);
+    $('#cash-calc').focusin(function(){
+      $('#calc-holder').slideDown();
+    });
+  });
+  
+  function addCheck(e){
+    var inputsArray = ['Name','Amount','Check Number','Check Date','Check Address'];
+    var $addCheckButton = $('#add-check-button');
+    var checkNumber = $addCheckButton.prevAll().length;
+    checkNumber++;
+    var checkId = 'check' + checkNumber;
+    var $check = $('<div/>', {
+      id: checkId
+    });
+    for(var i = 0; i < inputsArray.length; i++){
+      //var $field = $('<div/>');
+      switch(inputsArray[i]){
+        case 'Name':
+        case 'Check Address':
+          var type = 'text';
+          break;
+          
+        case 'Amount':
+        case 'Check Number':
+          var type = 'number';
+          break;
+
+        case 'Check Date':
+          var type = 'date';
+          break;
+      }
+      
+      var $input = $('<input/>', {
+        type: type,
+        name: checkId,
+        placeholder: inputsArray[i]
+      });
+      
+      
+      if(type == 'date'){
+            if (!e.data.support['date']) {
+				$input.datepicker();
+			}
+      } else if(type == 'number'){
+        $input.prop('step', 'any');
+      }
+          
+      $check.append($input);
+    }
+    //$addCheckButton.before($check);
+    $check.hide().css({'opacity': 0}).insertBefore($addCheckButton).slideDown('fast').animate({opacity: 1}, {duration: 'fast'});
+      
+    //timestamp name type amount checkNo checkDate checkAddress treasurer 
+  }
+  
+  function toggleCalc(){
+    $('#calc-holder').slideToggle();
+  }    
+  
+  function sendAsCash(){
+    var output = $('.screen').html();
+    $('#cash-calc').val(output);
+    toggleCalc();
+  }
+  
+  function showError(e){
+    alert("An error occurred: " + e);
+  }
+  
+  function showSuccess(resp){
+    alert("Done! The total tithe amounts to $" + resp + '.');
+  }
+  
+  
+</script>
